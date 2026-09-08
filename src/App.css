@@ -1,31 +1,154 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
   background-color: #f4f6f8;
-  color: #222;
 }
 
-.app {
-  min-height: 100vh;
+.app-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Navigation Bar */
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
 
-.navigation {
-  background-color: #20232a;
+.app-container p {
+  text-align: center;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+form input {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+form button {
+  background-color: #2563eb;
   color: white;
+}
+
+form button:hover {
+  background-color: #1d4ed8;
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.list-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 40px;
+  gap: 15px;
+  padding: 15px;
+  background-color: #f9fafb;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.list-item span {
+  flex: 1;
+  font-size: 16px;
+}
+
+.list-item.completed span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.button-group button:nth-child(1) {
+  background-color: #16a34a;
+  color: white;
+}
+
+.button-group button:nth-child(2) {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.button-group button:nth-child(3) {
+  background-color: #dc2626;
+  color: white;
+}
+
+.button-group button:hover {
+  opacity: 0.85;
+}
+
+.list-item input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  form {
+    flex-direction: column;
+  }
+
+  .list-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-group {
+    justify-content: center;
+  }
+}
+/* Navigation Bar */
+
+.navigation {
+  width: 100%;
+  background-color: #1f2937;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  box-sizing: border-box;
 }
 
 .logo {
-  font-size: 28px;
+  color: white;
+  font-size: 24px;
   font-weight: bold;
 }
 
@@ -37,133 +160,24 @@ body {
 .nav-links a {
   color: white;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
 }
 
 .nav-links a:hover {
-  color: #61dafb;
+  color: #60a5fa;
 }
 
-/* Main Content */
-
-.main-content {
-  min-height: 85vh;
-}
-
-/* StreamList Homepage */
-
-.streamlist-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 80vh;
-  padding: 30px;
-}
-
-.hero {
-  background-color: white;
-  padding: 50px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 700px;
-  width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.hero h1 {
-  font-size: 42px;
-  margin-bottom: 15px;
-}
-
-.hero p {
-  font-size: 18px;
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-/* StreamList Form */
-
-.stream-form {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.stream-form input {
-  flex: 1;
-  padding: 14px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.stream-form input:focus {
-  outline: 2px solid #20232a;
-}
-
-.stream-form button {
-  padding: 14px 24px;
-  font-size: 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #20232a;
-  color: white;
-}
-
-.stream-form button:hover {
-  background-color: #61dafb;
-  color: #20232a;
-}
-
-/* Movies, Cart and About Pages */
-
-.placeholder-page {
-  text-align: center;
-  padding: 100px 20px;
-}
-
-.placeholder-page h1 {
-  font-size: 36px;
-  margin-bottom: 15px;
-}
-
-.placeholder-page p {
-  font-size: 18px;
-}
-
-/* Mobile Devices */
-
-@media (max-width: 700px) {
+@media (max-width: 600px) {
   .navigation {
     flex-direction: column;
-    gap: 15px;
-    padding: 20px;
+    gap: 12px;
+    padding: 15px;
   }
 
   .nav-links {
     gap: 15px;
-  }
-
-  .nav-links a {
-    font-size: 15px;
-  }
-
-  .hero {
-    padding: 30px 20px;
-  }
-
-  .hero h1 {
-    font-size: 32px;
-  }
-
-  .stream-form {
-    flex-direction: column;
-  }
-
-  .stream-form input,
-  .stream-form button {
-    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
