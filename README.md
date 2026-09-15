@@ -2,9 +2,9 @@
 
 StreamList is a React-based web application created for EZTechMovie.
 
-Users enter the name of a movie or program they want to watch, and every entry is
-displayed on the page as a managed list. The current version uses React Router to
-provide navigation between four pages:
+Users can manage a personal watch queue and search for current movie information
+retrieved from The Movie Database (TMDB). React Router provides navigation between
+four pages:
 
 - StreamList
 - Movies
@@ -24,6 +24,10 @@ provide navigation between four pages:
 - **Delete** — removes the item from the state array.
 - **Clear watched** — bulk-removes every completed item.
 - **Persistence** — the queue is saved to `localStorage`, so it survives a refresh.
+- **TMDB movie search** — searches the TMDB API and displays posters, titles,
+  release dates, ratings, and summaries on the separate Movies route.
+- **Persistent searches** — the latest search and its results are saved to
+  `localStorage` and restored after a page refresh.
 - **Navigation** — a persistent nav bar built with React Router `NavLink`, which
   highlights the page the user is currently on.
 
@@ -43,6 +47,7 @@ navigation bar and the StreamList page heading.
 
 - React
 - React Router
+- TMDB API
 - JavaScript
 - CSS
 - Google Fonts (Material Symbols, Poppins)
@@ -51,10 +56,14 @@ navigation bar and the StreamList page heading.
 
 ## Getting Started
 
-```bash
-npm install
-npm start
-```
+1. Install the project dependencies with `npm install`.
+2. Create a free TMDB account and obtain an API key.
+3. Copy `.env.example` to `.env.local`.
+4. Replace `your_tmdb_api_key_here` with the TMDB API key.
+5. Start the application with `npm start`.
+
+Restart the development server after creating or changing `.env.local`. The
+`.env.local` file is ignored by Git and must not be committed.
 
 The app runs at http://localhost:3000 and redirects to `/streamlist`.
 
@@ -68,15 +77,15 @@ src/
     Navigation.js         React Router NavLink nav bar
   pages/
     StreamList.js         list state, add/edit/delete/complete
-    Movies.js             placeholder
+    Movies.js             TMDB search and saved search results
     Cart.js               placeholder
     About.js              placeholder
 ```
 
-## Future Development
+## Local Storage Keys
 
-The Movies and Cart pages will be developed further in Week 4. The About page
-will be expanded in Week 5.
+- `streamlist.items` stores the user's watch queue and watched status.
+- `streamlist.movieSearch` stores the latest TMDB search and its results.
 
 ## Course
 
