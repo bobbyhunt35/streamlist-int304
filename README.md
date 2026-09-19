@@ -28,6 +28,12 @@ four pages:
   release dates, ratings, and summaries on the separate Movies route.
 - **Persistent searches** — the latest search and its results are saved to
   `localStorage` and restored after a page refresh.
+- **Share a StreamList** — subscribers on the Premium, Family, or Social plan can
+  create a share link from the StreamList page, update the shared copy, or stop
+  sharing. Only titles and watched status are copied.
+- **Comments and reactions** — anyone who opens a shared list can like it, love
+  it, or mark it a great pick, and can post comments (500 characters, optional
+  name). Comments render as plain text.
 - **Navigation** — a persistent nav bar built with React Router `NavLink`, which
   highlights the page the user is currently on.
 
@@ -75,17 +81,30 @@ src/
   App.css                 application styles
   components/
     Navigation.js         React Router NavLink nav bar
+    SharePanel.js         plan check and share link controls
   pages/
     StreamList.js         list state, add/edit/delete/complete
     Movies.js             TMDB search and saved search results
+    SharedList.js         shared list view with comments and reactions
     Cart.js               placeholder
     About.js              placeholder
+  utils/
+    sharing.js            share, comment, and reaction storage helpers
 ```
 
 ## Local Storage Keys
 
 - `streamlist.items` stores the user's watch queue and watched status.
 - `streamlist.movieSearch` stores the latest TMDB search and its results.
+- `streamlist.plan` stores the plan chosen in the share panel (temporary until
+  subscriptions are built).
+- `streamlist.shares` stores shared lists with their comments and reactions.
+- `streamlist.activeShareId` stores the share link currently active.
+- `streamlist.viewerId` is an anonymous id so a viewer can toggle their own
+  reaction.
+
+Shared lists are stored in the browser for now, so a share link opens only on the
+device that created it. A backend is needed to share across devices.
 
 ## Course
 

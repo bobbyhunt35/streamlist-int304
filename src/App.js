@@ -8,6 +8,7 @@ import Movies from "./pages/Movies";
 import Subscriptions from "./pages/Subscriptions";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
+import SharedList from "./pages/SharedList";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<About />} />
+          <Route path="/shared/:shareId" element={<SharedList />} />
           <Route path="*" element={<Navigate to="/streamlist" replace />} />
         </Routes>
       </main>
