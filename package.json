@@ -42,5 +42,8 @@
     "moduleNameMapper": {
       "^react-router/dom$": "<rootDir>/node_modules/react-router/dist/development/dom-export.js"
     }
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
   }
 }
