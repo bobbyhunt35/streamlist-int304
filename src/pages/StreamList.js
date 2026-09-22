@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 import { FaFilm } from "react-icons/fa";
 
 const STORAGE_KEY = "streamlist.items";
@@ -21,6 +21,92 @@ function loadItems() {
     return [];
   }
 }
+
+// One queue row. Memoized so editing or completing a row does not re-render
+// every other row in the list.
+const StreamListItem = memo(function StreamListItem({
+  item,
+  isEditing,
+  editText,
+  canSave,
+  onEditTextChange,
+  onEditKeyDown,
+  onSave,
+  onCancel,
+  onComplete,
+  onEdit,
+  onDelete,
+}) {
+  return (
+    <div className={`list-item ${item.completed ? "completed" : ""}`}>
+      {isEditing ? (
+        <>
+          <input
+            type="text"
+            value={editText}
+            onChange={onEditTextChange}
+            onKeyDown={onEditKeyDown}
+            aria-label={`Edit ${item.text}`}
+            autoFocus
+          />
+
+          <div className="button-group">
+            <button
+              className="btn-save"
+              onClick={onSave}
+              disabled={!canSave}
+              title="Save changes (Enter)"
+            >
+              <Icon name="save" /> Save
+            </button>
+
+            <button
+              className="btn-cancel"
+              onClick={onCancel}
+              title="Cancel editing (Esc)"
+            >
+              <Icon name="close" /> Cancel
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <span>{item.text}</span>
+
+          <div className="button-group">
+            <button
+              className="btn-complete"
+              onClick={onComplete}
+              aria-pressed={item.completed}
+              title={item.completed ? "Mark as unwatched" : "Mark as watched"}
+            >
+              <Icon
+                name={item.completed ? "check_circle" : "radio_button_unchecked"}
+              />
+              {item.completed ? "Watched" : "Complete"}
+            </button>
+
+            <button
+              className="btn-edit"
+              onClick={onEdit}
+              title={`Edit ${item.text}`}
+            >
+              <Icon name="edit" /> Edit
+            </button>
+
+            <button
+              className="btn-delete"
+              onClick={onDelete}
+              title={`Delete ${item.text}`}
+            >
+              <Icon name="delete" /> Delete
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+});
 
 function StreamList() {
   const [input, setInput] = useState("");
@@ -52,7 +138,7 @@ function StreamList() {
       completed: false,
     };
 
-    setItems([newItem, ...items]);
+    setItems((prevItems) => [newItem, ...prevItems]);
     setInput("");
   };
 
@@ -65,8 +151,8 @@ function StreamList() {
   };
 
   const handleComplete = (id) => {
-    setItems(
-      items.map((item) =>
+    setItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === id ? { ...item, completed: !item.completed } : item
       )
     );
@@ -74,7 +160,7 @@ function StreamList() {
 
   const handleDelete = (id) => {
     if (editingId === id) handleCancel();
-    setItems(items.filter((item) => item.id !== id));
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   const handleEdit = (item) => {
@@ -85,8 +171,8 @@ function StreamList() {
   const handleSave = (id) => {
     if (!canSave) return;
 
-    setItems(
-      items.map((item) =>
+    setItems((prevItems) =>
+      prevItems.map((item) =>
         item.id === id ? { ...item, text: editText.trim() } : item
       )
     );
@@ -112,8 +198,13 @@ function StreamList() {
   };
 
   const handleClearCompleted = () => {
-    setItems(items.filter((item) => !item.completed));
+    setItems((prevItems) => prevItems.filter((item) => !item.completed));
   };
+
+  const handleEditTextChange = useCallback(
+    (event) => setEditText(event.target.value),
+    []
+  );
 
   return (
     <div className="app-container">
@@ -163,80 +254,20 @@ function StreamList() {
           </div>
         ) : (
           items.map((item) => (
-            <div
+            <StreamListItem
               key={item.id}
-              className={`list-item ${item.completed ? "completed" : ""}`}
-            >
-              {editingId === item.id ? (
-                <>
-                  <input
-                    type="text"
-                    value={editText}
-                    onChange={(event) => setEditText(event.target.value)}
-                    onKeyDown={(event) => handleEditKeyDown(event, item.id)}
-                    aria-label={`Edit ${item.text}`}
-                    autoFocus
-                  />
-
-                  <div className="button-group">
-                    <button
-                      className="btn-save"
-                      onClick={() => handleSave(item.id)}
-                      disabled={!canSave}
-                      title="Save changes (Enter)"
-                    >
-                      <Icon name="save" /> Save
-                    </button>
-
-                    <button
-                      className="btn-cancel"
-                      onClick={handleCancel}
-                      title="Cancel editing (Esc)"
-                    >
-                      <Icon name="close" /> Cancel
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <span>{item.text}</span>
-
-                  <div className="button-group">
-                    <button
-                      className="btn-complete"
-                      onClick={() => handleComplete(item.id)}
-                      aria-pressed={item.completed}
-                      title={
-                        item.completed ? "Mark as unwatched" : "Mark as watched"
-                      }
-                    >
-                      <Icon
-                        name={
-                          item.completed ? "check_circle" : "radio_button_unchecked"
-                        }
-                      />
-                      {item.completed ? "Watched" : "Complete"}
-                    </button>
-
-                    <button
-                      className="btn-edit"
-                      onClick={() => handleEdit(item)}
-                      title={`Edit ${item.text}`}
-                    >
-                      <Icon name="edit" /> Edit
-                    </button>
-
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(item.id)}
-                      title={`Delete ${item.text}`}
-                    >
-                      <Icon name="delete" /> Delete
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+              item={item}
+              isEditing={editingId === item.id}
+              editText={editText}
+              canSave={canSave}
+              onEditTextChange={handleEditTextChange}
+              onEditKeyDown={(event) => handleEditKeyDown(event, item.id)}
+              onSave={() => handleSave(item.id)}
+              onCancel={handleCancel}
+              onComplete={() => handleComplete(item.id)}
+              onEdit={() => handleEdit(item)}
+              onDelete={() => handleDelete(item.id)}
+            />
           ))
         )}
       </div>
