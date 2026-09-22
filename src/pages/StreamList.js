@@ -1,5 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from "react";
 import { FaFilm } from "react-icons/fa";
+import SharePanel from "../components/SharePanel";
 
 const STORAGE_KEY = "streamlist.items";
 
@@ -271,6 +272,8 @@ function StreamList() {
           ))
         )}
       </div>
+
+      <SharePanel items={items} />
     </div>
   );
 }
