@@ -13,7 +13,9 @@ root.render(
   </React.StrictMode>
 );
 
-if ("serviceWorker" in navigator) {
+// Only register in production builds; a cached service worker under
+// `npm start` serves stale bundles and breaks hot reloading.
+if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/service-worker.js").catch((error) => {
       console.error("Service worker registration failed:", error);
