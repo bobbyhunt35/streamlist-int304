@@ -83,6 +83,10 @@ function Cart() {
         <span>Total</span>
         <span className="cart-total-price">${totalPrice.toFixed(2)}</span>
       </div>
+
+      <div className="cart-checkout">
+        <Link to="/credit-card" className="checkout-action">Checkout →</Link>
+      </div>
     </div>
   );
 }

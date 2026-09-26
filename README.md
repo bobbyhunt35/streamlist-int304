@@ -109,3 +109,9 @@ device that created it. A backend is needed to share across devices.
 ## Course
 
 INT 499 Technology Capstone
+
+## Credit card checkout addition
+
+Add a subscription or accessory to the cart, open Cart, and select **Checkout** beneath the total. The new `/credit-card` page formats sixteen digits as `1234 5678 9012 3456`, validates the name and future expiration date, and saves demo cards in browser localStorage. Cards persist on refresh and can be deleted.
+
+Use invented numbers only. This assignment demo stores full numbers in localStorage and does not process payments. Never enter a real payment card. A production app should use a payment processor and store only a token and limited card metadata.

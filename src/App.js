@@ -7,6 +7,7 @@ import StreamList from "./pages/StreamList";
 import Movies from "./pages/Movies";
 import Subscriptions from "./pages/Subscriptions";
 import Cart from "./pages/Cart";
+import CreditCard from "./pages/CreditCard";
 import About from "./pages/About";
 import SharedList from "./pages/SharedList";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/movies" element={<Movies />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/credit-card" element={<CreditCard />} />
           <Route path="/about" element={<About />} />
           <Route path="/shared/:shareId" element={<SharedList />} />
           <Route path="*" element={<Navigate to="/streamlist" replace />} />
