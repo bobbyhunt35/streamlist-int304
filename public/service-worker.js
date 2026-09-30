@@ -50,7 +50,9 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(async () => {
-          return (await caches.match(request)) || caches.match("/index.html");
+          // "/" rather than "/index.html": static hosts redirect the latter,
+          // and Chrome refuses a redirected response for a navigation.
+          return (await caches.match(request)) || caches.match("/");
         })
     );
     return;
