@@ -10,6 +10,7 @@ import {
   getShare,
   stopSharing,
 } from "./utils/sharing";
+import { signInTestUser } from "./utils/testAuth";
 
 function renderAt(path) {
   return render(
@@ -21,6 +22,7 @@ function renderAt(path) {
 
 beforeEach(() => {
   window.localStorage.clear();
+  signInTestUser();
 });
 
 describe("share rules (FR-12)", () => {
