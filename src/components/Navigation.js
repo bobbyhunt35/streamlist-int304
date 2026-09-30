@@ -1,6 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaFilm } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 
 const NAV_ITEMS = [
@@ -13,6 +14,13 @@ const NAV_ITEMS = [
 
 function Navigation() {
   const { itemCount } = useCart();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/login", { replace: true });
+  };
 
   return (
     <nav className="navigation">
@@ -36,6 +44,29 @@ function Navigation() {
             )}
           </NavLink>
         ))}
+
+        {user && (
+          <div className="nav-user">
+            {user.picture ? (
+              <img
+                className="nav-avatar"
+                src={user.picture}
+                alt=""
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <span className="material-symbols-rounded" aria-hidden="true">
+                account_circle
+              </span>
+            )}
+            <span className="nav-user-name" title={user.email}>
+              {user.name}
+            </span>
+            <button type="button" className="nav-signout" onClick={handleSignOut}>
+              Sign out
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );
